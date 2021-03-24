@@ -1,0 +1,15 @@
+current directory: /Users/hoshiohikaru/projects/furima-34853/vendor/bundle/ruby/2.6.0/gems/bootsnap-1.7.3/ext/bootsnap
+/Users/hoshiohikaru/.rbenv/versions/2.6.5/bin/ruby -I /Users/hoshiohikaru/.rbenv/versions/2.6.5/lib/ruby/2.6.0 -r ./siteconf20210324-8953-zl0ghp.rb extconf.rb
+creating Makefile
+
+current directory: /Users/hoshiohikaru/projects/furima-34853/vendor/bundle/ruby/2.6.0/gems/bootsnap-1.7.3/ext/bootsnap
+make "DESTDIR=" clean
+
+current directory: /Users/hoshiohikaru/projects/furima-34853/vendor/bundle/ruby/2.6.0/gems/bootsnap-1.7.3/ext/bootsnap
+make "DESTDIR="
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.bundle
+
+current directory: /Users/hoshiohikaru/projects/furima-34853/vendor/bundle/ruby/2.6.0/gems/bootsnap-1.7.3/ext/bootsnap
+make "DESTDIR=" install
+/usr/bin/install -c -m 0755 bootsnap.bundle ./.gem.20210324-8953-sj1gkg/bootsnap

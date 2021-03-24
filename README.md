@@ -1,24 +1,83 @@
-# README
+#テーブル設計
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+##　usersテーブル
 
-Things you may want to cover:
+| Column    | Type       | Options                            |
+| --------  | ---------- | ---------------------------------- |
+| nickname  | string     | null: false                        |
+| email     | string     | null: false                        |
+| password  | string     | null: false                        |
+| last_name | string     | null: false                        |
+| first_name| string     | null: false                        |
+| birthday  | date       | null: false                        | 
 
-* Ruby version
+### Association
 
-* System dependencies
+- has_many :items
+- has_many :comments
 
-* Configuration
+## itemsテーブル
 
-* Database creation
+| Column    | Type       | Options                            |
+| --------  | ---------- | ---------------------------------- |
+| category  | string     | null: false                        |
+| shipping  | string     | null: false                        |
+| brand_id  | string     | null: false                        |
+| price     | string     | null: false                        |
+| condition | string     | null: false                        |
+| name      | string     | null: false                        | 
+| brand_id  | string     | null: false                        |
+| prefecture| string     | null: false                        |
+| cost      | string     | null: false                        |
+| ship_date | string     | null: false                        |
 
-* Database initialization
+- belongs_to :user dependent: :destroy
+- has_many :comments
 
-* How to run the test suite
+## cardテーブル
 
-* Services (job queues, cache servers, search engines, etc.)
+| Column     | Type       | Options                            |
+| --------   | ---------- | ---------------------------------- |
+| user_id    | string     | null: false                        |
+| customer_id| string     | null: false                        |
+| card_id    | string     | null: false                        |
 
-* Deployment instructions
+- belongs_to :user
 
-* ...
+## commentsテーブル
+
+| Column     | Type       | Options                            |
+| --------   | ---------- | ---------------------------------- |
+| user_id    | string     | null: false                        |
+| item_id    | string     | null: false                        |
+| text       | text       | null: false                        |
+
+- belongs_to :items
+
+## brandテーブル
+
+| Column     | Type       | Options                            |
+| --------   | ---------- | ---------------------------------- |
+| name       |  string    | null: false          　　　　　　　  |
+
+- has-many: :items
+
+## categoryテーブル
+
+| Column     | Type       | Options                            |
+| --------   | ---------- | ---------------------------------- |
+| name       | string     | null: false                        |
+
+- has_many: :items
+
+## imagesテーブル
+
+| Column     | Type       | Options                            |
+| --------   | ---------- | ---------------------------------- |
+| images     | string     | null: false                        |
+| product_id | string     | null: false                        |
+
+- belongs_to: :items
+
+
+

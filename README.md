@@ -16,8 +16,8 @@
 ### Association
 
 - has_many :items
-- has_many :comments
-- has_many :destination
+- has_many :orders
+- has_many :destinations
 
 
 ## itemsテーブル
@@ -30,7 +30,8 @@
 | prefecture_id| integer    | null: false                     |
 | cost_id   | integer    | null: false                        |
 | ship_date_id | integer    | null: false                     |
-| text      | text          |null: false                      |
+| text      | text          | null: false                     |
+| category  | string        | null: false                     |
 
 - belongs_to :user dependent: :destroy
 - belongs_to :destination
@@ -45,18 +46,20 @@
 | user       | references | foreign_key: true                  |
 | item       | references | foreign_key: true                  |
 
-- belongs_to :items
+- belongs_to :item
+- belongs_to :user
 
 ## destinationテーブル
 
 | Column    | Type       | Options                            |
 | --------  | ---------- | ---------------------------------- |
 | user_id   | integer    | null: false                        |
-| phone_number| string    | null: false                      |
+| phone_number| string    | null: false                       |   
 | address   | string     | null: false                        |
 | city      | string     | null: false                        |
-| zip_code  | integer    | null: false                        |
-| prefecture| integer    | null: false                        | 
-| building  | string     | null: false                        |
+| zip_code  | string     | null: false                        |
+| prefecture_id | integer    | null: false                    | 
+| building  | string     |                                    |
 
-- belongs_to :users
+- belongs_to :user
+- belongs_to order

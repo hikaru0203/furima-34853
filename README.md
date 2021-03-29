@@ -46,8 +46,8 @@
 | item       | references | foreign_key: true                  |
 
 - has_one :destination
-- belongs_to :users
-- belongs_to :items
+- belongs_to :user
+- belongs_to :item
 
 ## destinationテーブル
 

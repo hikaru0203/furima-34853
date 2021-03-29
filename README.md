@@ -35,7 +35,7 @@
 
 - belongs_to :user dependent: :destroy
 - has_many :comments
-- belongs_to :order
+- has_one :order
 
 
 ## ordersテーブル
@@ -45,15 +45,15 @@
 | user       | references | foreign_key: true                  |
 | item       | references | foreign_key: true                  |
 
-- belongs_to :destination
-- belongs_to :user
-- belongs_to :item
+- has_one :destination
+- belongs_to :users
+- belongs_to :items
 
 ## destinationテーブル
 
 | Column    | Type       | Options                            |
 | --------  | ---------- | ---------------------------------- |
-| user_id   | integer    |  foreign_key: true                 |
+| order_id  | integer    |  foreign_key: true                 |
 | phone_number| string    | null: false                       |   
 | address   | string     | null: false                        |
 | city      | string     | null: false                        |

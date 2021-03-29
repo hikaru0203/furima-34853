@@ -4,20 +4,19 @@
 
 | Column    | Type       | Options                            |
 | --------  | ---------- | ---------------------------------- |
-| nickname  | string     | null: false                      |
-| email     | string     | unique: true                      |
-| encrypted_password  | string     | null: false                        |
+| nickname  | string     | null: false                        |
+| email     | string     | unique: true  null: false          |
+| encrypted_password  | string     | null: false              |
 | last_name | string     | null: false                        |
 | first_name| string     | null: false                        |
 | birthday  | date       | null: false                        | 
-| last_name_kana| string| | null: false                        |
+| last_name_kana| string| | null: false                       |
 | first_name_kana| string| null: false                        |
 
 ### Association
 
 - has_many :items
 - has_many :orders
-- has_many :destinations
 
 
 ## itemsテーブル
@@ -31,10 +30,9 @@
 | cost_id   | integer    | null: false                        |
 | ship_date_id | integer    | null: false                     |
 | text      | text          | null: false                     |
-| category  | string        | null: false                     |
+| category_id  | integer        | null: false                 |
 
 - belongs_to :user dependent: :destroy
-- belongs_to :destination
 - has_many :comments
 
 
@@ -46,14 +44,13 @@
 | user       | references | foreign_key: true                  |
 | item       | references | foreign_key: true                  |
 
-- belongs_to :item
-- belongs_to :user
+- belongs_to :destination
 
 ## destinationテーブル
 
 | Column    | Type       | Options                            |
 | --------  | ---------- | ---------------------------------- |
-| user_id   | integer    | null: false                        |
+| user_id   | integer    |  foreign_key: true                 |
 | phone_number| string    | null: false                       |   
 | address   | string     | null: false                        |
 | city      | string     | null: false                        |
@@ -61,5 +58,4 @@
 | prefecture_id | integer    | null: false                    | 
 | building  | string     |                                    |
 
-- belongs_to :user
 - belongs_to order

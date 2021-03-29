@@ -24,6 +24,7 @@
 | Column    | Type       | Options                            |
 | --------  | ---------- | ---------------------------------- |
 | price     | integer    | null: false                        |
+| user_id   | integer    | foreign_key: true                  |
 | condition_id | integer    | null: false                     |
 | name      | string     | null: false                        | 
 | prefecture_id| integer    | null: false                     |
@@ -34,7 +35,7 @@
 
 - belongs_to :user dependent: :destroy
 - has_many :comments
-
+- belongs_to :order
 
 
 ## ordersテーブル
@@ -45,6 +46,8 @@
 | item       | references | foreign_key: true                  |
 
 - belongs_to :destination
+- belongs_to :user
+- belongs_to :item
 
 ## destinationテーブル
 

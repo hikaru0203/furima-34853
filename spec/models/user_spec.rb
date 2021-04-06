@@ -32,9 +32,9 @@ describe User do
       end
 
       it "encrypted_passwordがない場合は登録できないこと" do
-        user = FactoryBot.build(:user, encrypted_password: nil)
+        user = FactoryBot.build(:user, password_confirmation: nil)
         user.valid?
-        expect(user.errors[:encrypted_password]).to include("can't be blank")
+        expect(user.errors[:password_confirmation]).to include("can't be blank")
       end
 
       it "last_nameがない場合は登録できないこと" do
@@ -70,7 +70,7 @@ describe User do
       # パスワードの文字数テスト ▼
 
       it "passwordが7文字以上であれば登録できること" do
-        user = FactoryBot.build(:user, password: "1234567", encrypted_password: "1234567")
+        user = FactoryBot.build(:user, password: "1234567s", encrypted_password: "1234567s")
         expect(user).to be_valid
       end
 

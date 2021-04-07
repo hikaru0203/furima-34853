@@ -43,7 +43,7 @@ RSpec.describe User, type: :model do
       it 'パスワードに英小文字が含まれない場合無効な状態であること' do
         @user = User.new(password: '1'+'A' * 5, password_confirmation: '1A'+'a' * 3)
         @user.valid?
-        expect(@user.errors[:password]).to include('is too short (minimum is 7 characters)')
+        expect(@user.errors[:password]).to include("is invlid")
       end
 
       it "password_confirmathionがない場合は登録できないこと" do

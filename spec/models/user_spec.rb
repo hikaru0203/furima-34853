@@ -25,7 +25,7 @@ RSpec.describe User, type: :model do
       it "nicknameがない場合は登録できないこと" do
         @user.nickname = ''
         @user.valid?
-        expect(@user.errors.full_messages).to include("can't be blank")
+        expect(@user.errors.full_messages).to include("Nickname can't be blank")
       end
 
       it "emailがない場合は登録できないこと" do
@@ -40,10 +40,16 @@ RSpec.describe User, type: :model do
         expect(@user.errors[:password]).to include("can't be blank")
       end
 
-      it "encrypted_passwordがない場合は登録できないこと" do
+      it 'パスワードに英小文字が含まれない場合無効な状態であること' do
+        @user = User.new(password: '1'+'A' * 5, password_confirmation: '1A'+'a' * 3)
+        @user.valid?
+        expect(@user.errors[:password]).to include('is too short (minimum is 7 characters)')
+      end
+
+      it "password_confirmathionがない場合は登録できないこと" do
         @user.password_confirmation = ''
         @user.valid?
-        expect(@user.errors[:password_confirmation]).to include("can't be blank")
+        expect(@user.errors[:password_confirmation]).to include("doesn't match Password")
       end
 
       it "last_nameがない場合は登録できないこと" do
@@ -81,73 +87,74 @@ RSpec.describe User, type: :model do
      
 
       it "passwordが7文字以下であれば登録できないこと" do
-        user = FactoryBot.build(:user, password: "123456", encrypted_password: "123456")
-        user.valid?
-        expect(user.errors[:encrypted_password]).to include("is too short (minimum is 7 characters)")
+        @user = FactoryBot.build(:user, password: "123456", encrypted_password: "123456")
+        @user.valid?
+        expect(@user.errors[:password]).to include("is too short (minimum is 7 characters)")
       end
 
       # email 一意性制約のテスト ▼
 
       it "重複したemailが存在する場合登録できないこと" do
         user = FactoryBot.create(:user)
+        user = FactoryBot.build(:user, email: 'test,test')
         another_user = FactoryBot.build(:user, email: user.email)
         another_user.valid?
-        expect(another_user.errors[:email]).to include("has already been taken")
+        expect(another_user.errors[:email]).to include("is invalid")
       end
 
-      # 確認用パスワードが必要であるテスト ▼
-
-      it "passwordが存在してもencrypted_passwordがない場合は登録できないこと" do
-        user = FactoryBot.build(:user, encrypted_password: "")
-        user.valid?
-        expect(user.errors[:encrypted_password]).to include("can't be blank","is too short (minimum is 7 characters)")
-      end
+      
 
       # 本人確認名前全角入力のテスト ▼
 
       it 'last_nameが全角入力でなければ登録できないこと' do
-        user = FactoryBot.build(:user, last_name: '')
-        user.valid?
-        expect(user.errors[:last_name]).to include()
+        @user = FactoryBot.build(:user, last_name: '')
+        @user.valid?
+        expect(@user.errors[:last_name]).to include("can't be blank")
       end
 
       it 'last_nameが全角入力でなければ登録できないこと' do
-        user = FactoryBot.build(:user, last_name: 'tanaka')
-        user.valid?
-        expect(user.errors[:last_name]).to include()
+        @user = FactoryBot.build(:user, last_name: 'tanaka')
+        @user.valid?
+        expect(@user.errors[:last_name]).to include("is invalid")
       end
 
 
       it 'first_nameが全角入力でなければ登録できないこと' do
-        user = FactoryBot.build(:user, first_name: 'tanaka')
-        user.valid?
-        expect(user.errors[:first_name]).to include()
+        @user = FactoryBot.build(:user, first_name: 'tanaka')
+        @user.valid?
+        expect(@user.errors[:first_name]).to include("is invalid")
       end
 
       it 'first_nameが全角入力でなければ登録できないこと' do
-        user = FactoryBot.build(:user, first_name: '')
-        user.valid?
-        expect(user.errors[:first_name]).to include()
+        @user = FactoryBot.build(:user, first_name: '')
+        @user.valid?
+        expect(@user.errors[:first_name]).to include("can't be blank")
       end
 
       # 本人確認カタカナ全角入力のテスト ▼
 
       it 'last_name_kanaが全角カタカナでなければ登録できないこと' do
-        user = FactoryBot.build(:user, last_name_kana: 'やまだ')
-        user.valid?
-        expect(user.errors[:last_name_kana]).to include()
+        @user = FactoryBot.build(:user, last_name_kana: 'やまだ')
+        @user.valid?
+        expect(@user.errors[:last_name_kana]).to include("is invalid")
       end
 
       it 'last_name_kanaが全角カタカナでなければ登録できないこと' do
         user = FactoryBot.build(:user, last_name_kana: '')
         user.valid?
-        expect(user.errors[:last_name_kana]).to include()
+        expect(user.errors[:last_name_kana]).to include("can't be blank")
       end
 
       it 'last_name_kanaが全角カタカナでなければ登録できないこと' do
         user = FactoryBot.build(:user, last_name_kana: 'yamada')
         user.valid?
-        expect(user.errors[:last_name_kana]).to include()
+        expect(user.errors[:last_name_kana]).to include("is invalid")
+      end
+
+      it 'last_name_kanaが全角カタカナでなければ登録できないこと' do
+        user = FactoryBot.build(:user, last_name_kana: '山田')
+        user.valid?
+        expect(user.errors[:last_name_kana]).to include("is invalid")
       end
 
 
@@ -155,22 +162,27 @@ RSpec.describe User, type: :model do
       it 'first_name_kanaが全角カタカナでなければ登録できないこと' do
         user = FactoryBot.build(:user, first_name_kana: 'tanaka')
         user.valid?
-        expect(user.errors[:first_name_kana]).to include()
+        expect(user.errors[:first_name_kana]).to include("is invalid")
       end
 
       it 'first_name_kanaが全角カタカナでなければ登録できないこと' do
         user = FactoryBot.build(:user, first_name_kana: '')
         user.valid?
-        expect(user.errors[:first_name_kana]).to include()
+        expect(user.errors[:first_name_kana]).to include("can't be blank")
       end
 
       it 'first_name_kanaが全角カタカナでなければ登録できないこと' do
         user = FactoryBot.build(:user, first_name_kana: 'やまだ')
         user.valid?
-        expect(user.errors[:first_name_kana]).to include()
+        expect(user.errors[:first_name_kana]).to include("is invalid")
+      end
+
+      it 'first_name_kanaが全角カタカナでなければ登録できないこと' do
+        user = FactoryBot.build(:user, first_name_kana: '山田')
+        user.valid?
+        expect(user.errors[:first_name_kana]).to include("is invalid")
       end
     end
-  end
 end
 
 

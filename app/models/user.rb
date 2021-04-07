@@ -5,15 +5,12 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   with_options presence: true do
   validates :nickname
-  validates :email
   validates :password, length: { minimum: 7 }
-  validates :last_name, /\A[ぁ-んァ-ン一-龥]/
-  validates :first_name, /\A[ぁ-んァ-ン一-龥]/
-  validates :last_name_kana
-  validates :first_name_kana
+  validates :last_name, /\A[ぁ-んァ-ヶ一-龥々ー]+\z/
+  validates :first_name, /\A[ぁ-んァ-ヶ一-龥々ー]+\z/
+  validates :last_name_kana, {with: /\A[ァ-ヶー－]+\z/ }
+  validates :first_name_kana, {with: /\A[ァ-ヶー－]+\z/ }
   validates :birth_day
   
   has_many :items
-  has_many :users
-
 end

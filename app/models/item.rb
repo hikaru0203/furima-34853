@@ -1,5 +1,5 @@
 class Item < ApplicationRecord
-  validates :price,             presence: true, numericality: { only_integer: true }
+  validates :price,             presence: true, numericality: { only_integer: true },  format: { with: /\A[0-9]+\z/ }
   validates_inclusion_of :price, in: 300..9999999
   validates :name,              presence: true, length: { maximum: 40 }
   validates :text,              presence: true, length: { maximum: 1000 }

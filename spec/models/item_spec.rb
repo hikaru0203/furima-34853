@@ -52,30 +52,38 @@ RSpec.describe Item, type: :model do
         @item.valid?
         expect(@item.errors.full_messages).to include("Price is not a number")
       end
-      it '販売価格は、¥300~¥9,999,999の間のみ保存可能であること' do
-          @item.price = '100'
-          @item.valid?
-          expect(@item.errors.full_messages).to include("Price is not included in the list")
-        end
-
+     
         it '¥299円以下では登録できないこと' do
-          @item.price = '100'
+          @item.price = 100
           @item.valid?
           expect(@item.errors.full_messages).to include("Price is not included in the list")
         end
 
         it '¥10,000,000以上では登録できないこと' do
-          @item.price = '1000000000'
+          @item.price = 1000000000
           @item.valid?
           expect(@item.errors.full_messages).to include("Price is not included in the list")
         end
 
-      it '販売価格は半角数字のみ保存可能であること' do
-          @item.price = '１００００'
-          @item.valid?
-          expect(@item.errors.full_messages).to include("Price is not a number")
+        it '販売価格は半角数字のみ保存可能であること' do
+            @item.price = '１００００'
+            @item.valid?
+            expect(@item.errors.full_messages).to include("Price is not a number")
+        end
+
+        it '半角英数混合では登録できないこと' do
+            @item.price = '300yen'
+            @item.valid?
+            expect(@item.errors.full_messages).to include("Price is not a number")
+        end
+
+        it '半角英語だけでは登録できないこと' do
+            @item.price = 'three'
+            @item.valid?
+            expect(@item.errors.full_messages).to include("Price is not a number")
+        end
+      
       end
-    end
   end
 end
 

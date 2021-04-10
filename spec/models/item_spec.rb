@@ -50,8 +50,30 @@ RSpec.describe Item, type: :model do
       it 'priceが全角数字だと出品できない' do
         @item.price = "２０００"
         @item.valid?
-        binding.pry
-        expect(@item.errors.full_messages).to include("")
+        expect(@item.errors.full_messages).to include("Price is not a number")
+      end
+      it '販売価格は、¥300~¥9,999,999の間のみ保存可能であること' do
+          @item.price = '100'
+          @item.valid?
+          expect(@item.errors.full_messages).to include("Price is not included in the list")
+        end
+
+        it '¥299円以下では登録できないこと' do
+          @item.price = '100'
+          @item.valid?
+          expect(@item.errors.full_messages).to include("Price is not included in the list")
+        end
+
+        it '¥10,000,000以上では登録できないこと' do
+          @item.price = '1000000000'
+          @item.valid?
+          expect(@item.errors.full_messages).to include("Price is not included in the list")
+        end
+
+      it '販売価格は半角数字のみ保存可能であること' do
+          @item.price = '１００００'
+          @item.valid?
+          expect(@item.errors.full_messages).to include("Price is not a number")
       end
     end
   end

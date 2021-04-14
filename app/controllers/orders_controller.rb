@@ -11,7 +11,7 @@ class OrdersController < ApplicationController
     @pay_form = PayForm.new(order_params)
     @item = Item.find(params[:item_id])
     if @pay_form.valid?
-      Payjp.api_key = "sk_test_14966d973e8c73e12b328f28"  # 自身のPAY.JPテスト秘密鍵を記述しましょう
+      Payjp.api_key = ENV["PAYJP_SECRET_KEY"] # 自身のPAY.JPテスト秘密鍵を記述しましょう
       Payjp::Charge.create(
         amount: @item.price,  # 商品の値段
         card: order_params[:token],    # カードトークン
@@ -36,7 +36,7 @@ class OrdersController < ApplicationController
   end
 
  def set_item
-  Item.find(params[:id])
+  @item = Item.find(params[:id])
  end
 
 

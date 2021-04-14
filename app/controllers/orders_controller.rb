@@ -1,5 +1,6 @@
 class OrdersController < ApplicationController
-
+  before_action :authenticate_user!, only: [:index, :create]
+  before_action :move_to_index, only: [:index, :create]
   def index
     @pay_form = PayForm.new
     @item = Item.find(params[:item_id])
@@ -27,6 +28,12 @@ class OrdersController < ApplicationController
   def order_params
     params.require(:pay_form).permit(:zip_code, :city, :address, :phone_number, :building, :prefecture_id).merge(token: params[:token], user_id: current_user.id, item_id: params[:item_id])
   end
+
+  def move_to_index
+    @item = Item.find(params[:item_id])
+    return redirect_to root_path if current_user == @item.user || @item.order.present?#論理演算子と条件文商品が売れていたら
+  end
+
 
 
 

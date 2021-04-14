@@ -15,6 +15,7 @@ RSpec.describe PayForm, type: :model do
      
       it '建物番号が空の場合でも登録できる' do
         @pay_form.building = nil
+        expect(@pay_form).to be_valid
       end
 
     end

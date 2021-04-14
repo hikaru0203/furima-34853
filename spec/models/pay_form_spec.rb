@@ -14,7 +14,7 @@ RSpec.describe PayForm, type: :model do
       end
      
       it '建物番号が空の場合でも登録できる' do
-        expect(@pay_form).to be_valid
+        @pay_form.building = nil
       end
 
     end
@@ -49,7 +49,7 @@ RSpec.describe PayForm, type: :model do
         @pay_form.valid?
         expect(@pay_form.errors.full_messages).to include("Phone number can't be blank")
       end
-      it 'phone_numberが10桁では購入できない' do
+      it 'phone_numberが10桁未満では購入できない' do
         @pay_form.phone_number = "090123457"
         @pay_form.valid?
         expect(@pay_form.errors.full_messages).to include("Phone number is invalid")

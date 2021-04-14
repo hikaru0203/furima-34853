@@ -25,7 +25,6 @@ class OrdersController < ApplicationController
   end
 
   def move_to_index
-    @item = Item.find(params[:item_id])
     return redirect_to root_path if current_user == @item.user || @item.order.present?#論理演算子と条件文商品が売れていたら
   end
 
@@ -41,7 +40,7 @@ class OrdersController < ApplicationController
         currency: 'jpy'                 # 通貨の種類（日本円）
       )
     end
-    
+
 
 
 end

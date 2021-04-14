@@ -3,6 +3,7 @@ class Item < ApplicationRecord
   validates_inclusion_of :price, in: 300..9999999
   validates :name,              presence: true, length: { maximum: 40 }
   validates :text,              presence: true, length: { maximum: 1000 }
+  validates :image,             presence: true
   with_options numericality: { other_than: 0 } do
     validates :condition_id
     validates :prefecture_id

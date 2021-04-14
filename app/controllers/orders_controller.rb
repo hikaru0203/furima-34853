@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
   before_action :move_to_index, only: [:index, :create]
+  before_action :set_item
   def index
     @pay_form = PayForm.new
     @item = Item.find(params[:item_id])
@@ -34,6 +35,9 @@ class OrdersController < ApplicationController
     return redirect_to root_path if current_user == @item.user || @item.order.present?#論理演算子と条件文商品が売れていたら
   end
 
+ def set_item
+  Item.find(params[:id])
+ end
 
 
 

@@ -2,13 +2,21 @@ require 'rails_helper'
 
 RSpec.describe PayForm, type: :model do
   before do
-    @pay_form = FactoryBot.build(:pay_form)
+    @user = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item)
+    @pay_form = FactoryBot.build(:pay_form, user_id: @user.id, item_id: @item.id)
+    sleep(1)
   end
   describe '購入内容確認' do
     context '商品購入がうまくいく時' do
       it '全ての値が正しく入力されていれば購入できること' do
         expect(@pay_form).to be_valid
       end
+     
+      it '建物番号が空の場合でも登録できる' do
+        expect(@pay_form).to be_valid
+      end
+
     end
     context '商品購入がうまくいかない時' do
       it 'zip_codeが空だと購入できない' do
@@ -47,11 +55,29 @@ RSpec.describe PayForm, type: :model do
         expect(@pay_form.errors.full_messages).to include("Phone number is invalid")
       end
 
+      it 'phone_numberに数字以外の記述があると購入できない' do
+        @pay_form.phone_number = "03499ge33"
+        @pay_form.valid?
+        expect(@pay_form.errors.full_messages).to include("Phone number is invalid")
+      end
+
 
         it "tokenが空では登録できないこと" do
           @pay_form.token = nil
           @pay_form.valid?
           expect(@pay_form.errors.full_messages).to include("Token can't be blank")
+        end
+
+        it "user_idが空では登録できないこと" do
+          @pay_form.user_id = nil
+          @pay_form.valid?
+          expect(@pay_form.errors.full_messages).to include("User can't be blank")
+        end
+
+        it "item_idが空では登録できないこと" do
+          @pay_form.item_id= nil
+          @pay_form.valid?
+          expect(@pay_form.errors.full_messages).to include("Item can't be blank")
         end
 
     end

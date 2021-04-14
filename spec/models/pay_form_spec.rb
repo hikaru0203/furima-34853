@@ -55,6 +55,13 @@ RSpec.describe PayForm, type: :model do
         expect(@pay_form.errors.full_messages).to include("Phone number is invalid")
       end
 
+      it 'phone_numberが12桁以上の場合は購入できない' do
+        @pay_form.phone_number = "0901234573332333"
+        @pay_form.valid?
+        binding.pry
+        expect(@pay_form.errors.full_messages).to include("Phone number is invalid")
+      end
+
       it 'phone_numberに数字以外の記述があると購入できない' do
         @pay_form.phone_number = "03499ge33"
         @pay_form.valid?

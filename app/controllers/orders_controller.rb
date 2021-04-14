@@ -1,15 +1,13 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user!, only: [:index, :create]
   before_action :move_to_index, only: [:index, :create]
-  before_action :set_item
+  before_action :set_item, only:[:index, :create]
   def index
     @pay_form = PayForm.new
-    @item = Item.find(params[:item_id])
   end
 
   def create
     @pay_form = PayForm.new(order_params)
-    @item = Item.find(params[:item_id])
     if @pay_form.valid?
       Payjp.api_key = ENV["PAYJP_SECRET_KEY"] # 自身のPAY.JPテスト秘密鍵を記述しましょう
       Payjp::Charge.create(
@@ -36,7 +34,7 @@ class OrdersController < ApplicationController
   end
 
  def set_item
-  @item = Item.find(params[:id])
+  @item = Item.find(params[:item_id])
  end
 
 

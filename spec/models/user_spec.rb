@@ -14,8 +14,8 @@ RSpec.describe User, type: :model do
         expect(@user).to be_valid
       end
 
-      it "passwordが7文字以上であれば登録できること" do
-        user = FactoryBot.build(:user, password: "1234567s", encrypted_password: "1234567s")
+      it "passwordが6文字以上であれば登録できること" do
+        user = FactoryBot.build(:user, password: "12345s", encrypted_password: "12345s")
         expect(@user).to be_valid
       end
     end
@@ -86,10 +86,10 @@ RSpec.describe User, type: :model do
 
      
 
-      it "passwordが7文字以下であれば登録できないこと" do
+      it "passwordが6文字以下であれば登録できないこと" do
         @user = FactoryBot.build(:user, password: "123456", encrypted_password: "123456")
         @user.valid?
-        expect(@user.errors[:password]).to include("is too short (minimum is 7 characters)")
+        expect(@user.errors[:password]).to include("is too short (minimum is 6 characters)")
       end
 
       # email 一意性制約のテスト ▼

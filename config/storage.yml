@@ -19,7 +19,9 @@ local:
 #   service: GCS
 #   project: your_project
 #   credentials: <%= Rails.root.join("path/to/gcs.keyfile") %>
-#   bucket: your_own_bucket
+#   bucket: tech0203
+#   access_key_id: <%= ENV['AWS_ACCESS_KEY_ID'] %>
+#   secret_access_key:  <%= ENV['AWS_SECRET_ACCESS_KEY'] %>
 
 # Use rails credentials:edit to set the Azure Storage secret (as azure_storage:storage_access_key)
 # microsoft:

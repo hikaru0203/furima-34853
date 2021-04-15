@@ -5,7 +5,7 @@ RSpec.describe Item, type: :model do
     @item = FactoryBot.build(:item)
   end
   describe '商品情報入力' do
-    context '商品情報入力がうまくいかない時' do
+    context '商品情報入力がうまくいく時' do
       it '全ての値が正しく入力されていれば出品できること' do
         expect(@item).to be_valid
       end
@@ -75,6 +75,12 @@ RSpec.describe Item, type: :model do
             @item.price = 'three'
             @item.valid?
             expect(@item.errors.full_messages).to include("Price is not a number")
+        end
+
+        it 'imageが空だと出品できない' do
+          @item.image = nil
+          @item.valid?
+          expect(@item.errors.full_messages).to include("Image can't be blank")
         end
       
       end

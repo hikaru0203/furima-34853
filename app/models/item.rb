@@ -3,6 +3,7 @@ class Item < ApplicationRecord
   validates_inclusion_of :price, in: 300..9999999
   validates :name,              presence: true, length: { maximum: 40 }
   validates :text,              presence: true, length: { maximum: 1000 }
+  validates :image,             presence: true
   with_options numericality: { other_than: 0 } do
     validates :condition_id
     validates :prefecture_id
@@ -13,6 +14,7 @@ class Item < ApplicationRecord
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to :user
+  has_one :order
   has_one_attached :image
   belongs_to_active_hash :prefecture
   belongs_to_active_hash :condition

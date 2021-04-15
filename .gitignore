@@ -29,6 +29,5 @@
 yarn-debug.log*
 .yarn-integrity
 .DS_Store
-app/assets/images
 /vendor
 
